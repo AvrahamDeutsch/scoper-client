@@ -129,21 +129,22 @@ class PDFpreview extends Component {
 
 
 
-                <div>
-                    
                     <div>
-                        <p className="pdfOverview"><b> Assumptions</b></p> <br />
-                        <ul>
-                            <div>{this.props.generalAssumptions.map((elm, i) => {
-                                return elm === 'true' ? <li key={i}>{data.assumptions[i].name}</li> : null
-                            })}</div>
 
-                            <div>{this.props.currentAssumptions.map((elm, i) => {
-                                return <li key={i}>{elm}</li>
-                            })}</div>
-                        </ul>
+                        <div>
+                            <p className="pdfOverview"><b> Assumptions</b></p> <br />
+                            <ul>
+                                <div>{this.props.generalAssumptions.map((elm, i) => {
+                                    return elm === 'true' ? <li key={i}>{data.assumptions[i].name}</li> : null
+                                })}</div>
+
+                                <div>{this.props.currentAssumptions.map((elm, i) => {
+                                    return <li key={i}>{elm}</li>
+                                })}</div>
+                            </ul>
+                        </div>
+                        <DevelopmentTasks />
                     </div>
-                    <DevelopmentTasks />
                 </div>
             </div>
 

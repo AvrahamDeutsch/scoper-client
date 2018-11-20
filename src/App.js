@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { pageLinkes } from './linkes'
 import { Row, Col } from 'reactstrap'
 import store from './store/store';
-import { Nav, NavItem, NavLink, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, } from 'reactstrap';
+// import { Nav, NavItem, NavLink, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, } from 'reactstrap';
 
 import SelectProject from './pages/managmentTools/selectProject.js';
 import Versions from './pages/managmentTools/versions.js';

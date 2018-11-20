@@ -19,7 +19,7 @@ export const pageLinkes = {
 }
 
 // const mainURL = "http://10.2.1.119:3000/api";
-const mainURL = "http://10.2.1.103:3000/api";
+const mainURL = "/api";
 //  const mainURL = "http://10.2.1.106:3000/api";
 
 
