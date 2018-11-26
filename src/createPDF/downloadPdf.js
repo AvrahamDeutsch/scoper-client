@@ -54,7 +54,7 @@ class DownloadPdf extends Component {
     render() {
         return (
             <div >
-                <button className={'btn btn-primary'} onClick={this.createPdf}>Download Pdf <FontAwesomeIcon className={'mx-2'} icon={faDownload} /></button>
+                <button className={'btn btn-primary col-4'} onClick={this.createPdf}>Download Pdf<FontAwesomeIcon className={'mx-2'} icon={faDownload} /></button>
             </div>
         )
     }

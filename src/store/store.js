@@ -1,7 +1,7 @@
 import { createStore } from 'redux'
 import { urlLinks } from '../linkes.js'
-import { createNewProject, getData, saveData, editData, deleteData } from './axios'
-import pricingData from '../rest_API_example_of_task_container.json';
+import { createNewProject, getData, getPojects, saveData, editData, deleteData } from './axios'
+// import pricingData from '../rest_API_example_of_task_container.json';
 
 var state = {
     projectsArray: [],
@@ -10,7 +10,6 @@ var state = {
     oldVersionNumber: '',
     oldVersionData: null,
 
-    // currentActor: '',
     projectDescription: '',
     actorsArray: [],
     subjects: [],
@@ -30,23 +29,48 @@ var state = {
 
     specificationLink: '',
     specificationDescription: '',
+
+    scopingStatus: null,
+    pricingStatus: null,
 }
 
 var reduser = function (state, action) {
     let url = '';
     var newState = { ...state };
     switch (action.type) {
+        //Change the status of the scoping;
+        case "CHANGE_SCOPING_STATUS":
+            url = `${urlLinks.changeScopingStatus}/${newState.currentProject}`;
+            editData(url, 'Change scoping status', 'GET_ALL_DATA')
+            return newState;
+            break;
         //Geting an array of the names and id's of all projects exist;
         case "GET_PROJECTS":
             url = `${urlLinks.getProjects}`;
-            getData(url, 'UPDATE_STATE_PROJECTS');
+            getPojects(url, 'UPDATE_STATE_PROJECTS', action.payload);
             return newState;
-            break;
+        // break;
         //Updating the projects to an arr;
         case "UPDATE_STATE_PROJECTS":
-            newState.projectsArray = action.payload;
+            newState.projectsArray = action.payload.slice();
+            console.log(newState.projectsArray);
             return newState;
-            break;
+
+        case "START_WITH_PROJECT":
+            newState.projectsArray.map(elm => {
+                elm == action.payload ? console.log('YES'):console.log("NO");
+                
+                
+            })
+
+            
+
+            console.log(action.payload)
+               
+            console.log(newState.projectsArray);
+            return newState
+
+
         //After selecting a project updating the id of the project to state;
         case "UPDATE_CURRENT_PROJECT_ID":
             newState.currentProject = action.payload;
@@ -79,6 +103,9 @@ var reduser = function (state, action) {
 
             newState.specificationLink = action.payload.specificationLink;
             newState.specificationDescription = action.payload.specificationDescription;
+
+            newState.scopingStatus = action.payload.scopingStatus;
+            newState.pricingStatus = action.payload.pricingStatus;
 
             return newState;
             break;
@@ -170,20 +197,14 @@ var reduser = function (state, action) {
 
         //Saving the data from evaluetor Api to DB;
         case "SAVE_PRICING_DATA_FROM_EVALUETOR":
-
-            var checkIfNameExist = (arr, name) => {
-                return arr.every(milestone => name !== milestone.milestoneName);
-            }
-
-            var addProcessToArr = (checkIfExist) => {
+            var addProcessToArr = () => {
                 var processArr = [];
                 action.payload.taskContainers.map(container => {
-                    var checkIfNameExist = checkIfExist(processArr, container.milestoneName);
+                    var checkIfNameExist = processArr.every(milestone => container.milestoneName !== milestone.milestoneName);
                     if (checkIfNameExist) {
                         processArr.push({
                             milestoneName: container.milestoneName,
                             containers: [],
-                            // processTotalPrice: 0
                         });
                     }
                 })
@@ -201,7 +222,7 @@ var reduser = function (state, action) {
                 })
             }
 
-            var pricing = addProcessToArr(checkIfNameExist);
+            var pricing = addProcessToArr();
             addContainersToProcess(action.payload.taskContainers, pricing);
 
             url = `${urlLinks.savePricing}/${newState.currentProject}`;
@@ -232,10 +253,7 @@ var reduser = function (state, action) {
 
         case 'ADD_CONTAINER_TO_PROCESS':
 
-            // newState.pricing[action.processIndex].containers.push(action.payload);
-            newState.pricing[action.processIndex].containers.push({ containerName: action.payload.containerName, price: parseInt(action.payload.price) });
-            // url = `${urlLinks.saveComment}/${newState.currentProject}/${action.payload.ProcessIndex}`;
-            // saveData(url, { comment: action.payload.processComment }, '')
+            newState.pricing[action.processIndex].containers.push({ containerName: action.payload.containerName, price: action.payload.price });
             console.log(newState.pricing);
             return newState;
             break;
@@ -317,14 +335,14 @@ var reduser = function (state, action) {
             editData(url, actorTemplate, 'GET_ALL_DATA');
             return newState;
             break;
-
+        //In the meen time we can't edit subject;
         case "EDIT_SUBJECT":
             var subjectTemplate = {
                 name: action.payload.name,
                 description: action.payload.description,
             };
             url = `${urlLinks.editActor}/${action.payload.currentActorId}`;
-            editData(url, actorTemplate, 'GET_ALL_DATA');
+            editData(url, subjectTemplate, 'GET_ALL_DATA');
             return newState;
             break;
 
@@ -340,6 +358,7 @@ var reduser = function (state, action) {
             return newState;
             break;
 
+        //In the meen time we can't delete subject;
         case "DELETE_SUBJECT":
             // var url = `${urlLinks.deleteActor}/${newState.currentVersion}/${action.payload.index}`
             // deleteData(url, 'GET_ALL_DATA');
@@ -363,6 +382,7 @@ var reduser = function (state, action) {
             break;
     }
 }
+
 
 var store = createStore(reduser, state)
 export default store

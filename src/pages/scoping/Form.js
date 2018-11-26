@@ -124,7 +124,7 @@ class FormActorInput extends Component {
 
     saveBtn = (input, textarea, click) => {
         var inputEmpty = input === '' || textarea === '';
-        return <button className={inputEmpty ? 'disableBtn btn btn-secondary' : 'btn btn-primary'} onClick={click}>Add</button>
+        return <button className={inputEmpty ? 'disabled btn btn-primary col-4' : 'btn btn-primary col-4'} onClick={click}>Add</button>
     }
 
     editBtn = () => {
