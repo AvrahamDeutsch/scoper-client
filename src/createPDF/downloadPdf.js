@@ -1,36 +1,55 @@
 import React, { Component } from 'react';
-import jsPDF from 'jspdf';
+import  jsPDF from 'jspdf';
 import data from '../overView.json';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faDownload} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import { connect } from 'react-redux';
+import { Document, Page } from 'react-pdf';
+
 
 class DownloadPdf extends Component {
+    constructor(props) {
+        super(props)
+    }
 
     createPdf = () => {
         var doc = new jsPDF();
+
+
         var elementHandler = {
-            '#ignorePDF': function (element, renderer) {
+            '#img': function (element, renderer) {
+                return true;
+            },
+            '#table': function (element, renderer) {
                 return true;
             }
         };
+
+        var margins = {
+            top: 15,
+            bottom: 15,
+            left: 15,
+            width: 15
+        };        
         var source = document.getElementById('pdfPreview');
         console.log(source);
-        
+
         doc.fromHTML(
             source,
             15,
             15,
             {
-                'width': 180, 
+                'width': 180,
                 'elementHandlers': elementHandler
             },
-            () => {
-                doc.save("test.pdf");
-            }
-        );
-   
 
-    }
+            (dispose) => {
+              
+                doc.save(`${this.props.currentProject}.pdf`);
+            },margins
+        );
+
+    };
 
     render() {
         return (
@@ -39,6 +58,7 @@ class DownloadPdf extends Component {
             </div>
         )
     }
+
 }
 
-export default DownloadPdf;
+export default connect(store => store)(DownloadPdf);

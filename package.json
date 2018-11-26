@@ -18,6 +18,8 @@
     "react-dom": "^16.5.2",
     "react-draft-wysiwyg": "^1.12.13",
     "react-file-download": "^0.3.5",
+    "react-pdf": "^3.0.6",
+    "react-pdf-js": "^4.0.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.3",
@@ -30,7 +32,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://10.2.1.119:5000",
+  "proxy": "http://10.2.1.106:5000",
   "eslintConfig": {
     "extends": "react-app"
   },

@@ -45,14 +45,14 @@ class PDFpreview extends Component {
         return (
             <div>
 
-                <button onClick={() => {
+                {/* <button onClick={() => {
                     axios({
-                        url: 'http://10.2.1.103:3000/api/pdf',
+                        url: 'http://10.2.1.119:3000/api/pdf',
                         method: 'GET',
                         responseType: 'blob', // important
                     }).then((response) => {
                         const url = window.URL.createObjectURL(new Blob([response.data]));
-                        const link = document.createElement('a');
+                        const link = document.createElement();
                         link.href = url;
                         link.setAttribute('download', `${this.state.projectName}.pdf`); //or any other extension
                         document.body.appendChild(link);
@@ -61,7 +61,7 @@ class PDFpreview extends Component {
 
 
 
-                }}>Download</button>
+                }}>Download</button> */}
 
 
                 <DownloadPdf />
@@ -86,7 +86,7 @@ class PDFpreview extends Component {
 
                     <div className="imgDiv">
                         {data.imgUrlLinks.map((img, i) => {
-                            return <img key={i} src={img} alt="" />
+                            return <img id='img' key={i} src={img} alt=""/>
                         })}
                     </div>
 

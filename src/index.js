@@ -10,7 +10,7 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
     <Provider store={store}>
-        <App/>
+        <App projectId={'2'}/>
     </Provider>,
     document.getElementById('root'));
 
