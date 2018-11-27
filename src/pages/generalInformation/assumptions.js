@@ -79,8 +79,8 @@ class Assumptions extends Component {
 
   render() {
     return (
-      <div className="assumptionContainer">
-        <Label for="exampleCheckbox">Select Assumptions</Label>
+      <div className="text-left px-2">
+        <h2>Select Assumptions</h2>
         {/* <CustomInput id='selectAll' type='checkbox' label={'Select All'} checked={this.state.selectAll} onChange={this.selectAll} />   */}
         <div>{data.assumptions.map((item, index) => {
           return <FormGroup key={index}>
@@ -137,10 +137,10 @@ class AddAssumptions extends Component {
   handleBtn = () => {
 
     if (this.state.editMonde === false) {
-      return <Button color="info" className='saveBtn' onClick={() => {
+      return <button className='btn btn-primary col-4 mr-1' onClick={() => {
         this.props.sendToDB('add', this.state.inputValue);
         this.setState({ inputValue: "" })
-      }}>Add</Button>
+      }}>Add</button>
     } else {
       return <button className='editBtn'
         onClick={() => {
@@ -190,7 +190,7 @@ class AddAssumptions extends Component {
           })}
           <div className='formAssumptionsContainer'>
 
-          <Input type="textarea" name="text" value={this.state.inputValue} onChange={this.handleTextChange} placeholder='Add Assumption' />
+          <Input className='mb-2' type="textarea" name="text" value={this.state.inputValue} onChange={this.handleTextChange} placeholder='Add Assumption' />
             {/* <textarea
               style={{ width: "100%" }}
               //className='actorDescription'
@@ -198,9 +198,8 @@ class AddAssumptions extends Component {
               onChange={this.handleTextChange}
               placeholder='Add Assumption'>
             </textarea> */}
-            <br />
             {this.handleBtn()}
-            <Button color="warning" className='saveBtn' onClick={() => { this.props.sendToDB('general', this.props.state.generalAssumptionsArr) }}>Save</Button>
+            <button className='btn btn-primary col-4 ml-1' onClick={() => { this.props.sendToDB('general', this.props.state.generalAssumptionsArr) }}>Save</button>
           </div>
         </div>
       </div>

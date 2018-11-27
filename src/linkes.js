@@ -1,5 +1,5 @@
 export const pageLinkes = {
-    selectProject:'/',
+    selectProject:'/selectProject',
     allVersions: '/scoping/allVersions',
     pdfPreview: '/scoping/pdfPreview',
     newVersion: '/scoping/newVersion',
@@ -19,7 +19,7 @@ export const pageLinkes = {
 }
 
 // const mainURL = "http://10.2.1.119:3000/api";
-const mainURL = "http://10.2.1.103:3000/api";
+const mainURL = "/api";
 //  const mainURL = "http://10.2.1.106:3000/api";
 
 
@@ -39,9 +39,9 @@ export const urlLinks = {
     saveDiagramLink: mainURL + '/general/diagramLink',
     saveDiagramDescription: mainURL + '/general/diagramDescription',
     savePayment: mainURL + '/pricing/payment',
-
     saveSpecificationLink: mainURL + '/general/specification/specificationLink',
     saveSpecificationDescription: mainURL + '/general/specification/specificationDescription',
+    changeScopingStatus: mainURL + '/pricing/scopingStatus',
 
     
     editActor: mainURL + '/actor',

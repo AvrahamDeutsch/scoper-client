@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { pageLinkes } from './linkes'
 import { Row, Col } from 'reactstrap'
 import store from './store/store';
-import { Nav, NavItem, NavLink, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, } from 'reactstrap';
+// import { Nav, NavItem, NavLink, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, } from 'reactstrap';
 
 import SelectProject from './pages/managmentTools/selectProject.js';
 import Versions from './pages/managmentTools/versions.js';
@@ -25,29 +25,31 @@ import Specification from './pages/generalInformation/specification.js'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faChevronUp, faLock, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faChevronDown, faChevronUp);
-
-class NavBar extends Component {
+/**
+ * Crating the side bar;
+ */
+class SideBar extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       dropDown: [
-        { title: 'managment', isOpen: false},
-        { title: 'scoping', isOpen: false},
-        { title: 'pricing', isOpen: false},
-        { title: 'general', isOpen: false}
+        { title: 'managment', isOpen: false },
+        { title: 'scoping', isOpen: false },
+        { title: 'pricing', isOpen: false },
+        { title: 'general', isOpen: false }
       ]
     };
   }
 
 
-/**
- * Change the status of drop-down unit
-* @param {Number} index
-*/
+  /**
+   * Change the status of drop-down unit
+  * @param {Number} index
+  */
   dropDownIsOpen = (index) => {
     var newState = this.state.dropDown.slice();
     newState[index].isOpen = !newState[index].isOpen;
@@ -55,19 +57,19 @@ class NavBar extends Component {
   }
 
 
-/**
- * Changing the direction of the arrow if clicked
-* @param {Boolian} bool
-*/
-    arrowIcon = (bool) => {
-      return bool ? <FontAwesomeIcon icon={faChevronUp}/> : <FontAwesomeIcon icon={faChevronDown}/>
-    }
+  /**
+   * Changing the direction of the arrow if clicked
+  * @param {Boolian} bool
+  */
+  arrowIcon = (bool) => {
+    return bool ? <FontAwesomeIcon icon={faChevronUp} /> : <FontAwesomeIcon icon={faChevronDown} />
+  }
 
 
 
   render() {
-    
-    
+
+
     return (
       <div className='sidebar'>
         <div className='py-2 sidBarItem'>
@@ -111,60 +113,76 @@ class NavBar extends Component {
   }
 }
 
-
+/**
+ * Crating the main screen;
+ */
 class MainScreen extends Component {
   render() {
     return (
       <div className='mainScreen'>
 
-        <Route exact path={pageLinkes.selectProject} component={SelectProject} />
-        <Route exact path={pageLinkes.newVersion} component={CreateNewVersion} />
+        <Route path={pageLinkes.selectProject} component={SelectProject} />
+        <Route path={pageLinkes.newVersion} component={CreateNewVersion} />
         <Route path={pageLinkes.allVersions} component={Versions} />
         <Route path={pageLinkes.pdfPreview} component={PDFpreview} />
 
         <Route path={pageLinkes.projectDescreption} component={ProjectDescription} />
-        <Route path={pageLinkes.actors} component={() => <Form name={'Actor'} dispatchType={'ACTOR'} enableDelete={true} />} />
-        <Route path={pageLinkes.subjects} component={() => <Form name={'Subject'} dispatchType={'SUBJECT'} enableDelete={false} />} />
-        <Route path={pageLinkes.userStory} component={UserStories} />
+        <Route path={pageLinkes.actors} component={this.props.store.scopingStatus ? () => <Form name={'Actor'} dispatchType={'ACTOR'} enableDelete={true} /> : () => <Massege massege='Locked for editing' icon={faLock} />} />
+        <Route path={pageLinkes.subjects} component={this.props.store.scopingStatus ? () => <Form name={'Subject'} dispatchType={'SUBJECT'} enableDelete={false} /> : () => <Massege massege='Locked for editing' icon={faLock} />} />
+        <Route path={pageLinkes.userStory} component={this.props.store.scopingStatus ? UserStories : () => <Massege massege='Locked for editing' icon={faLock} />} />
 
-        <Route path={pageLinkes.pricing} component={Pricing} />
+        <Route path={pageLinkes.pricing} component={this.props.store.pricingStatus ? Pricing : () => <Massege massege='Waiting for evaluetor' icon={faSpinner} />} />
         <Route path={pageLinkes.payment} component={Payment} />
 
         <Route path={pageLinkes.assumptions} component={Assumptions} />
         <Route path={pageLinkes.diagram} component={Diagram} />
         <Route path={pageLinkes.specification} component={Specification} />
-
       </div>
     );
+  }
+}
+
+class Massege extends Component {
+  render() {
+    return (
+      <div className="massege">
+
+        <h2 className='lightBlue'>{this.props.massege}</h2>
+        <FontAwesomeIcon className="fa-10x fa-spin" color='lightBlue' icon={this.props.icon} />
+
+      </div>
+    )
   }
 }
 
 
 class App extends Component {
 
-  componentWillMount() {
-    store.dispatch({ type: 'GET_PROJECTS' });
+  componentDidMount() {
+    store.dispatch({ type: 'GET_PROJECTS' })
+    store.dispatch({ type: 'UPDATE_CURRENT_PROJECT_ID', payload: this.props.projectId })
+    store.dispatch({ type: 'GET_ALL_DATA' });
+
   }
 
   render() {
-    console.log(this.props);
     return (
       <BrowserRouter >
         <div className=''>
-            <div className='header'>
-                <header className={'container py-2'}>SCOPER</header>
-            </div>
-                <div className={'container'}>
-                    <Row >
+          <div className='header'>
+            <header className={'container py-2'}>{`Scoper of ${this.props.projectName} project `}</header>
+          </div>
+          <div className={'container'}>
+            <Row >
 
-                    <Col className={"col-3"}><NavBar /></Col>
-                    <Col className=' col-9 articleRight border-dark border-left text-xl-center'><MainScreen /></Col>
-                    </Row>
+              <Col className={"col-3"}><SideBar /></Col>
+              <Col className=' col-9 border-dark border-left text-xl-center'><MainScreen store={this.props} /></Col>
+            </Row>
 
-                </div>
-            <div className='footer'>
-                <footer className={'container py-3'}>✎ created by COD Team ©</footer>
-            </div>
+          </div>
+          <div className='footer'>
+            <footer className={'container py-3'}>✎ created by COD Team ©</footer>
+          </div>
         </div>
       </BrowserRouter>
     );
@@ -173,4 +191,3 @@ class App extends Component {
 
 
 export default connect(store => store)(App);
-

@@ -45,30 +45,30 @@ class PDFpreview extends Component {
         return (
             <div>
 
-                <button onClick={() => {
-                    axios({
-                        url: 'http://10.2.1.103:3000/api/pdf',
-                        method: 'GET',
-                        responseType: 'blob', // important
-                    }).then((response) => {
-                        const url = window.URL.createObjectURL(new Blob([response.data]));
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.setAttribute('download', `${this.state.projectName}.pdf`); //or any other extension
-                        document.body.appendChild(link);
-                        link.click();
-                    });
+                {/*<button onClick={() => {*/}
+                    {/*axios({*/}
+                        {/*url: 'http://10.2.1.103:3000/api/pdf',*/}
+                        {/*method: 'GET',*/}
+                        {/*responseType: 'blob', // important*/}
+                    {/*}).then((response) => {*/}
+                        {/*const url = window.URL.createObjectURL(new Blob([response.data]));*/}
+                        {/*const link = document.createElement('a');*/}
+                        {/*link.href = url;*/}
+                        {/*link.setAttribute('download', `${this.state.projectName}.pdf`); //or any other extension*/}
+                        {/*document.body.appendChild(link);*/}
+                        {/*link.click();*/}
+                    {/*});*/}
 
 
 
-                }}>Download</button>
+                {/*}}>Download</button>*/}
 
 
                 <DownloadPdf />
                 <div id='pdfPreview' className="border border-dark ml-4 mt-3 p-4 pdfPreview">
                     <div className="mainBlbBla" id='mainBlbBla'>
-                        <h3 className="pdfPreviewTitel" id='pdfPreviewTitel'><b> Offer for Development of Disk In Pro <br /> NEAR phase 2 web app </b></h3><br />
-                        <b className="pdfOverview"> Overview</b> <br /><br />
+                        <h3 className="pdfPreviewTitel"><b> Offer for Development of Disk In Pro <br /> NEAR phase 2 web app </b></h3><br />
+                        <p className="pdfOverview font-weight-bold"> Overview</p>
 
                         {
                             data.overView.map((elm, index) => {
@@ -86,7 +86,7 @@ class PDFpreview extends Component {
 
                     <div className="imgDiv">
                         {data.imgUrlLinks.map((img, i) => {
-                            return <img key={i} src={img} alt="" />
+                            return <img id='img' key={i} src={img} alt=""/>
                         })}
                     </div>
 
@@ -129,21 +129,22 @@ class PDFpreview extends Component {
 
 
 
-                <div>
-                    
                     <div>
-                        <p className="pdfOverview"><b> Assumptions</b></p> <br />
-                        <ul>
-                            <div>{this.props.generalAssumptions.map((elm, i) => {
-                                return elm === 'true' ? <li key={i}>{data.assumptions[i].name}</li> : null
-                            })}</div>
 
-                            <div>{this.props.currentAssumptions.map((elm, i) => {
-                                return <li key={i}>{elm}</li>
-                            })}</div>
-                        </ul>
+                        <div>
+                            <p className="pdfOverview"><b> Assumptions</b></p> <br />
+                            <ul>
+                                <div>{this.props.generalAssumptions.map((elm, i) => {
+                                    return elm === 'true' ? <li key={i}>{data.assumptions[i].name}</li> : null
+                                })}</div>
+
+                                <div>{this.props.currentAssumptions.map((elm, i) => {
+                                    return <li key={i}>{elm}</li>
+                                })}</div>
+                            </ul>
+                        </div>
+                        <DevelopmentTasks />
                     </div>
-                    <DevelopmentTasks />
                 </div>
             </div>
 

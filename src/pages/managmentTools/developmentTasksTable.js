@@ -24,7 +24,7 @@ class DevelopmentTasks extends Component {
 
     render() {
         return (
-            <Table bordered>
+            <Table id='table' bordered>
                 <thead>
                     <tr>
                         <th>Task</th>

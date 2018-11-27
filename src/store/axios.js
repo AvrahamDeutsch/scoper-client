@@ -9,10 +9,10 @@ import { urlLinks } from '../linkes.js'
  */
 export var createNewProject = (url, data) => {
     axios.post(url, data)
-    .then(function (response) {
-        console.log(response);
-        store.dispatch({ type: 'GET_PROJECTS' });
-    });
+        .then(function (response) {
+            console.log(response);
+            store.dispatch({ type: 'GET_PROJECTS' });
+        });
 }
 
 /**
@@ -22,11 +22,22 @@ export var createNewProject = (url, data) => {
  */
 export var getData = (url, type) => {
     axios.get(url)
-    .then(function(res) {
-        console.log(res);
-        store.dispatch({type: type, payload: res.data});
-    });
+        .then(function (res) {
+            console.log(res);
+            store.dispatch({ type: type, payload: res.data });
+        });
 }
+
+// export var getPojects = (url, type, payload) => {
+//     axios.get(url)
+//         .then(function (res) {
+//             console.log(res);
+//             store.dispatch({ type: type, payload: res.data });
+//         })
+//         .then(function () {
+//             store.dispatch({ type: "START_WITH_PROJECT", payload: payload });
+//         });
+// }
 
 /**
  * Saving data in DB;
@@ -35,11 +46,11 @@ export var getData = (url, type) => {
  * @param {String} type The case of the dispatch to do after the data saved in the DB;
  */
 export var saveData = (url, data, type) => {
-    axios.put(url,  data)
-    .then(function (res) {
-        store.dispatch({type: type});
-        console.log(res);
-    });
+    axios.put(url, data)
+        .then(function (res) {
+            store.dispatch({ type: type });
+            console.log(res);
+        });
 }
 
 /**
@@ -50,10 +61,10 @@ export var saveData = (url, data, type) => {
  */
 export var editData = (url, data, type) => {
     axios.put(url, data)
-    .then(function(res) {
-        console.log(res);
-        store.dispatch({type: type});
-    });
+        .then(function (res) {
+            console.log(res);
+            store.dispatch({ type: type });
+        });
 }
 
 /**
@@ -63,8 +74,8 @@ export var editData = (url, data, type) => {
  */
 export var deleteData = (url, type) => {
     axios.delete(url)
-    .then(function(res) {
-        console.log(res);
-        store.dispatch({type: type});
-    });
+        .then(function (res) {
+            console.log(res);
+            store.dispatch({ type: type });
+        });
 }

@@ -8,7 +8,7 @@ class Payment extends Component {
 
   render() {
     return (
-      <div className='formContainer description card' >
+      <div className='card' >
           <RichEditor editMode={true} data={this.props.payment} save={'SAVE_PAYMENT'} placeholder="Add payment"/>
       </div>
     );
