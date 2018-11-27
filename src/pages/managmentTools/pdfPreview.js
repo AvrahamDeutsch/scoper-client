@@ -65,7 +65,7 @@ class PDFpreview extends Component {
 
 
                 <DownloadPdf />
-                <div className="border border-dark ml-4 mt-3 p-4 pdfPreview">
+                <div id='pdfPreview' className="border border-dark ml-4 mt-3 p-4 pdfPreview">
                     <div className="mainBlbBla" id='mainBlbBla'>
                         <h3 className="pdfPreviewTitel"><b> Offer for Development of Disk In Pro <br /> NEAR phase 2 web app </b></h3><br />
                         <p className="pdfOverview font-weight-bold"> Overview</p>

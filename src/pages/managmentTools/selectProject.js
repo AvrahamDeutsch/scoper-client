@@ -27,7 +27,7 @@ class SelectProject extends Component {
                         store.dispatch({ type: 'UPDATE_CURRENT_PROJECT_ID', payload: e.target.value });
                         store.dispatch({ type: 'GET_ALL_DATA' });
                     }}>
-                        <option value='' style={{ color: 'red' }} >Select project</option>
+                        {/* <option value='' style={{ color: 'red' }} >Select project</option> */}
                         {this.props.projectsArray.map((elm, i) => {
                             return <option key={elm._id} value={elm._id}>{elm.projectName}</option>})}
                     </Input>

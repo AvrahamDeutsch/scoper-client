@@ -156,21 +156,12 @@ class Massege extends Component {
 }
 
 
- class App extends Component {
+class App extends Component {
 
- async  componentDidMount() {
-    const startProjectId = this.props.projectId;
-    console.log(startProjectId);
-    await store.dispatch({ type: 'GET_PROJECTS', payload:startProjectId });
-    // await store.dispatch({type:'START_WITH_PROJECT'})
-
-    if (startProjectId !== undefined) {
-      store.dispatch({ type: 'UPDATE_CURRENT_PROJECT_ID', payload: this.props.projectId });
-      store.dispatch({ type: 'GET_ALL_DATA' });
-
-    }
-    
-    console.log( this.props.projectsArray);
+  componentDidMount() {
+    store.dispatch({ type: 'GET_PROJECTS' })
+    store.dispatch({ type: 'UPDATE_CURRENT_PROJECT_ID', payload: this.props.projectId })
+    store.dispatch({ type: 'GET_ALL_DATA' });
 
   }
 
@@ -179,7 +170,7 @@ class Massege extends Component {
       <BrowserRouter >
         <div className=''>
           <div className='header'>
-            <header className={'container py-2'}>SCOPER</header>
+            <header className={'container py-2'}>{`Scoper of ${this.props.projectName} project `}</header>
           </div>
           <div className={'container'}>
             <Row >

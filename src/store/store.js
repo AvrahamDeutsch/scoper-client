@@ -1,11 +1,15 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import logger from 'redux-logger';
+import thunk from 'redux-thunk';
+import promise from 'redux-promise-middleware';
+
 import { urlLinks } from '../linkes.js'
 import { createNewProject, getData, getPojects, saveData, editData, deleteData } from './axios'
-// import pricingData from '../rest_API_example_of_task_container.json';
 
 var state = {
     projectsArray: [],
     currentProject: '',
+    projectName: '',
     versionsArray: [],
     oldVersionNumber: '',
     oldVersionData: null,
@@ -47,29 +51,14 @@ var reduser = function (state, action) {
         //Geting an array of the names and id's of all projects exist;
         case "GET_PROJECTS":
             url = `${urlLinks.getProjects}`;
-            getPojects(url, 'UPDATE_STATE_PROJECTS', action.payload);
+            getData(url, 'UPDATE_STATE_PROJECTS');
             return newState;
         // break;
         //Updating the projects to an arr;
         case "UPDATE_STATE_PROJECTS":
-            newState.projectsArray = action.payload.slice();
+            newState.projectsArray = action.payload;
             console.log(newState.projectsArray);
             return newState;
-
-        case "START_WITH_PROJECT":
-            newState.projectsArray.map(elm => {
-                elm == action.payload ? console.log('YES'):console.log("NO");
-                
-                
-            })
-
-            
-
-            console.log(action.payload)
-               
-            console.log(newState.projectsArray);
-            return newState
-
 
         //After selecting a project updating the id of the project to state;
         case "UPDATE_CURRENT_PROJECT_ID":
@@ -85,6 +74,9 @@ var reduser = function (state, action) {
         //Updating all the data of the currect projcet to state;
         case "UPDATE_STATE":
             // newState.currentVersion = action.payload._id;
+            newState.projectName = action.payload.projectName;
+            console.log(newState.projectName);
+
             newState.projectDescription = action.payload.projectDescription;
             newState.actorsArray = action.payload.allActors;
             newState.subjects = action.payload.subjects;
@@ -383,7 +375,9 @@ var reduser = function (state, action) {
     }
 }
 
+const middleWare = applyMiddleware(promise(), thunk, logger)
+const store = createStore(reduser, state, middleWare)
 
-var store = createStore(reduser, state)
+// var store = createStore(reduser, state)
 export default store
 

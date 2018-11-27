@@ -28,16 +28,16 @@ export var getData = (url, type) => {
         });
 }
 
-export var getPojects = (url, type, payload) => {
-    axios.get(url)
-        .then(function (res) {
-            console.log(res);
-            store.dispatch({ type: type, payload: res.data });
-        })
-        .then(function () {
-            store.dispatch({ type: "START_WITH_PROJECT", payload: payload });
-        });
-}
+// export var getPojects = (url, type, payload) => {
+//     axios.get(url)
+//         .then(function (res) {
+//             console.log(res);
+//             store.dispatch({ type: type, payload: res.data });
+//         })
+//         .then(function () {
+//             store.dispatch({ type: "START_WITH_PROJECT", payload: payload });
+//         });
+// }
 
 /**
  * Saving data in DB;

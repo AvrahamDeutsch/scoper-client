@@ -45,7 +45,7 @@ class DownloadPdf extends Component {
 
             (dispose) => {
               
-                doc.save(`${this.props.currentProject}.pdf`);
+                doc.save(`${this.props.projectName}.pdf`);
             },margins
         );
 
